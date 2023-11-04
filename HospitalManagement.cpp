@@ -19,7 +19,7 @@ void displayFullHistory();
 int main() {
     char fname[20];
     time_t rawtime;
-    struct tm* timeinfo;
+    //struct tm* timeinfo;
 
     time(&rawtime);
     timeinfo = localtime(&rawtime);
