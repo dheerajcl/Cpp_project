@@ -165,9 +165,7 @@ void displayHospitalInfo() {
             cout << "Unable to open the file\n";
         }
         cout << "\n\n\t\t";
-        cout << "Press Enter to continue...";
         cin.ignore();
-
         cout << "Press Enter to return to the main menu...";
         cin.get();  // Wait for Enter key
         system("clear");
@@ -180,7 +178,6 @@ void addPatientRecord() {
     ofstream pat_file;
     char fname[20];
     cout << "\n\n\n\nEnter the patient's file name : ";
-    cout << "Press Enter to continue...";
     cin.ignore();
 
     cin.getline(fname, sizeof(fname));
@@ -269,7 +266,7 @@ void addDiagnosisInfo() {
         pat_file.open(fname, ios::out | ios::app);
         cout << "\n";
         cout << "Adding more information in patient's file................on : " << asctime(timeinfo) << endl;
-        pat_file << "Description of " << asctime(timeinfo) << "\n";
+        pat_file << "\nDescription of " << asctime(timeinfo) << "\n";
         struct app {
             char symptom[500];
             char diagnosis[500];
@@ -283,26 +280,31 @@ void addDiagnosisInfo() {
         cout << "\nSymptoms : ";
         pat_file << "Symptoms : ";
         cin.getline(add.symptom, sizeof(add.symptom));
+        pat_file << add.symptom << "\n";
 
         // Prompt and input for Diagnosis
         cout << "\nDiagnosis : ";
         pat_file << "Diagnosis : ";
         cin.getline(add.diagnosis, sizeof(add.diagnosis));
+        pat_file << add.diagnosis << "\n";
 
         // Prompt and input for Medicines
         cout << "\nMedicines : ";
         pat_file << "Medicines : ";
         cin.getline(add.medicine, sizeof(add.medicine));
+        pat_file << add.medicine << "\n";
 
         // Prompt and input for Addmission Required
         cout << "\nAddmission Required? : ";
         pat_file << "Addmission Required? : ";
         cin.getline(add.addmission, sizeof(add.addmission));
+        pat_file << add.addmission << "\n";
 
         // Prompt and input for Type of ward
         cout << "\nType of ward : ";
         pat_file << "Type of ward : ";
         cin.getline(add.ward, sizeof(add.ward));
+        pat_file << add.ward << "\n";
 
         pat_file << "\n*************************************************************************\n";
         cout << "\n\n" << add.ward << " ward is allotted Successfully\n";
@@ -320,9 +322,7 @@ void displayFullHistory() {
     fstream pat_file;
     char fname[20];
     cout << "\n\nEnter the patient's file name to be opened : ";
-    cout << "Press Enter to continue...";
-cin.ignore();
-
+    cin.ignore();
     cin.getline(fname, sizeof(fname));
     system("clear");
     pat_file.open(fname, ios::in);
