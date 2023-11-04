@@ -1,0 +1,5 @@
+Hospital Information:
+
+Name: XYZ Hospital
+Address: 123 Main Street
+Contact: 555-1234
