@@ -14,13 +14,24 @@ bool login();
 void displayHospitalInfo();
 void addPatientRecord();
 void addDiagnosisInfo();
+void editPatientRecord();
+void deletePatientRecord();
 void displayFullHistory();
+
+void waitForEnter() {
+    cout << "Press Enter to continue...";
+    cin.ignore();
+    cin.get();
+}
+
+void clearScreen() {
+    system("clear"); // For Linux/macOS,     use "cls" for Windows
+}
+
 
 int main() {
     char fname[20];
     time_t rawtime;
-    //struct tm* timeinfo;
-
     time(&rawtime);
     timeinfo = localtime(&rawtime);
 
@@ -61,15 +72,17 @@ int main() {
         cout << "\t\t\t\t\t\t _________________________________________________________________ \n";
         cout << "\t\t\t\t\t\t|                                           	                  |\n";
         cout << "\t\t\t\t\t\t|             1  >> Add New Patient Record                        |\n";
-        cout << "\t\t\t\t\t\t|             2  >> Add Diagnosis Information                     |\n";
-        cout << "\t\t\t\t\t\t|             3  >> Full History of the Patient                   |\n";
-        cout << "\t\t\t\t\t\t|             4  >> Information About the Hospital                |\n";
-        cout << "\t\t\t\t\t\t|             5  >> Exit the Program                              |\n";
+        cout << "\t\t\t\t\t\t|             2  >> Edit Patient Record                           |\n";
+        cout << "\t\t\t\t\t\t|             3  >> Add Diagnosis Information                     |\n";
+        cout << "\t\t\t\t\t\t|             4  >> Delete Patient Record                         |\n";
+        cout << "\t\t\t\t\t\t|             5  >> Full History of the Patient                   |\n";
+        cout << "\t\t\t\t\t\t|             6  >> Information About the Hospital                |\n";
+        cout << "\t\t\t\t\t\t|             7  >> Exit the Program                              |\n";
         cout << "\t\t\t\t\t\t|_________________________________________________________________|\n\n";
         a:
         cout << "\t\t\t\t\t\tEnter your choice: ";
         cin >> i;
-        if (i > 5 || i < 1) {
+        if (i > 7 || i < 1) {
             cout << "\n\n\t\t\t\t\t\tInvalid Choice\n";
             cout << "\t\t\t\t\t\tTry again...........\n\n";
             goto a;
@@ -82,15 +95,21 @@ int main() {
                 addPatientRecord();
                 break;
             case 2:
-                addDiagnosisInfo();
+                editPatientRecord();
                 break;
             case 3:
-                displayFullHistory();
+                addDiagnosisInfo();
                 break;
             case 4:
-                displayHospitalInfo();
+                deletePatientRecord();
                 break;
             case 5:
+                displayFullHistory();
+                break;
+            case 6:
+                displayHospitalInfo();
+                break;
+            case 7:
                 cout << "\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n";
                 cout << "\t\t\t\t\t@@ _______________________________________________________________________________________ @@\n";
                 cout << "\t\t\t\t\t@@|                                           		                                  |@@\n";
@@ -118,7 +137,7 @@ int main() {
                 cout << "\t\t\t\t\t\tTry again...........\n\n";
         }
 
-        if (i == 5) {
+        if (i == 7) {
             break;
         }
     }
@@ -165,10 +184,8 @@ void displayHospitalInfo() {
             cout << "Unable to open the file\n";
         }
         cout << "\n\n\t\t";
-        cin.ignore();
-        cout << "Press Enter to return to the main menu...";
-        cin.get();  // Wait for Enter key
-        system("clear");
+        waitForEnter();
+        clearScreen();
     }
 }
 
@@ -189,10 +206,10 @@ void addPatientRecord() {
         struct patient_info {
             char name[20];
             char address[100];
-            char contact[10];
+            char contact[15];
             char age[5];
-            char sex[8];
-            char blood_gp[5];
+            char sex[20];
+            char blood_gp[10];
             char disease_past[50];
             char id[15];
         };
@@ -236,10 +253,92 @@ void addPatientRecord() {
         pat_file << "\n********************************************************************\n\n";
         cout << "\nInformation Saved Successfully\n";
     }
-    cout << "Press Enter to continue...";
-cin.ignore();
+    waitForEnter();
+    clearScreen();
+}
 
-    system("clear");
+void editPatientRecord() {
+    fstream pat_file;
+    char id[15];
+
+    cout << "\nEnter the patient's file name to edit: ";
+    cin.ignore();
+    cin.getline(id, sizeof(id));
+
+    pat_file.open(id, ios::in);
+    if (!pat_file) {
+        cout << "\nPatient record not found.\n";
+    } else {
+        cout << "\n\n\n\n\t\t\t\t............................. Editing Patient Record for ID: " << id << " ................................\n\n\n\n";
+        string info;
+        while (pat_file.good()) {
+            getline(pat_file, info);
+            cout << info << "\n";
+        }
+        cout << "\n";
+        pat_file.close();
+        pat_file.open(id, ios::out | ios::app);
+
+        cout << "\nEnter the updated patient information:\n";
+        struct patient_info {
+            char name[20];
+            char address[100];
+            char contact[15];
+            char age[5];
+            char sex[20];
+            char blood_gp[10];
+            char disease_past[50];
+            char newId[15];
+        };
+
+        patient_info updatedInfo;
+
+        cout << "\nUpdated Name : ";
+        pat_file << "Updated Name : ";
+        cin.getline(updatedInfo.name, sizeof(updatedInfo.name));
+        pat_file << updatedInfo.name << "\n";
+
+        cout << "\nUpdated Address : ";
+        pat_file << "Updated Address : ";
+        cin.getline(updatedInfo.address, sizeof(updatedInfo.address));
+        pat_file << updatedInfo.address << "\n";
+
+        cout << "\nUpdated Contact Number : ";
+        pat_file << "Updated Contact Number : ";
+        cin.getline(updatedInfo.contact, sizeof(updatedInfo.contact));
+        pat_file << updatedInfo.contact << "\n";
+
+        cout << "\nUpdated Age : ";
+        pat_file << "Updated Age : ";
+        cin.getline(updatedInfo.age, sizeof(updatedInfo.age));
+        pat_file << updatedInfo.age << "\n";
+
+        cout << "\nUpdated Sex : ";
+        pat_file << "Updated Sex : ";
+        cin.getline(updatedInfo.sex, sizeof(updatedInfo.sex));
+        pat_file << updatedInfo.sex << "\n";
+
+        cout << "\nUpdated Blood Group : ";
+        pat_file << "Updated Blood Group : ";
+        cin.getline(updatedInfo.blood_gp, sizeof(updatedInfo.blood_gp));
+        pat_file << updatedInfo.blood_gp << "\n";
+
+        cout << "\nUpdated Disease Past : ";
+        pat_file << "Updated Disease Past : ";
+        cin.getline(updatedInfo.disease_past, sizeof(updatedInfo.disease_past));
+        pat_file << updatedInfo.disease_past << "\n";
+
+        cout << "\nEnter the updated Patient ID : ";
+        pat_file << "Updated Patient ID : ";
+        cin.getline(updatedInfo.newId, sizeof(updatedInfo.newId));
+        pat_file << updatedInfo.newId << "\n";
+
+        cout << "\nPatient record updated successfully.\n";
+        pat_file.close();
+    }
+
+    waitForEnter();
+    clearScreen();
 }
 
 void addDiagnosisInfo() {
@@ -276,31 +375,26 @@ void addDiagnosisInfo() {
         };
         app add;
         
-        // Prompt and input for Symptoms
         cout << "\nSymptoms : ";
         pat_file << "Symptoms : ";
         cin.getline(add.symptom, sizeof(add.symptom));
         pat_file << add.symptom << "\n";
 
-        // Prompt and input for Diagnosis
         cout << "\nDiagnosis : ";
         pat_file << "Diagnosis : ";
         cin.getline(add.diagnosis, sizeof(add.diagnosis));
         pat_file << add.diagnosis << "\n";
 
-        // Prompt and input for Medicines
         cout << "\nMedicines : ";
         pat_file << "Medicines : ";
         cin.getline(add.medicine, sizeof(add.medicine));
         pat_file << add.medicine << "\n";
 
-        // Prompt and input for Addmission Required
         cout << "\nAddmission Required? : ";
         pat_file << "Addmission Required? : ";
         cin.getline(add.addmission, sizeof(add.addmission));
         pat_file << add.addmission << "\n";
 
-        // Prompt and input for Type of ward
         cout << "\nType of ward : ";
         pat_file << "Type of ward : ";
         cin.getline(add.ward, sizeof(add.ward));
@@ -310,10 +404,8 @@ void addDiagnosisInfo() {
         cout << "\n\n" << add.ward << " ward is allotted Successfully\n";
         pat_file.close();
         cout << "\n\n";
-        cout << "Press Enter to continue...";
-        cin.ignore();
-
-        system("clear");
+        waitForEnter();
+        clearScreen();
     }
 }
 
@@ -338,8 +430,22 @@ void displayFullHistory() {
         }
         cout << "\n";
     }
-    cout << "Press Enter to continue...";
-    cin.ignore();
+    waitForEnter();
+    clearScreen();
+}
 
-    system("clear");
+void deletePatientRecord() {
+    char id[15];
+    cout << "\nEnter the patient's ID to delete: ";
+    cin.ignore();
+    cin.getline(id, sizeof(id));
+
+    if (remove(id) != 0) {
+        cout << "\nError deleting patient record.\n";
+    } else {
+        cout << "\nPatient record deleted successfully.\n";
+    }
+
+    waitForEnter();
+    clearScreen();
 }
