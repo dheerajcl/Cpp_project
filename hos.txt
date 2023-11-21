@@ -1,5 +1,6 @@
 Hospital Information:
 
-Name: XYZ Hospital
-Address: 123 Main Street
-Contact: 555-1234
+Name: People Tree
+Address: Nagarabhavi
+Email:peopletree@gmail.com
+Contact: 555-1235

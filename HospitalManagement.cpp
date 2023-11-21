@@ -1,56 +1,43 @@
 #include<iostream>
 #include<fstream>
-#include<cstdlib>
-#include<cstdio>
 #include<ctime>
-#include<iomanip>
 
 using namespace std;
 
 struct tm* timeinfo;
 
+class HospitalManagementSystem {
+private:
 
-class PatientInfo {
-public:
     char name[20];
     char address[100];
     char contact[15];
-    char age[5];
+    char age[10];
     char sex[20];
-    char blood_gp[10];
+    char blood_gp[15];
     char disease_past[50];
     char id[15];
-};
-
-class DiagnosisInfo {
-public:
     char symptom[500];
     char diagnosis[500];
     char medicine[500];
     char addmission[30];
     char ward[15];
-};
-
-class Appointment {
-public:
     char date[15];
     char time[10];
     char doctor[30];
-};
-class HospitalManagementSystem{
-    public:
-        static void displayHospitalInfo();
-        static void addPatientRecord();
-        static void addDiagnosisInfo();
-        static void editPatientRecord();
-        static void deletePatientRecord();
-        static void displayFullHistory();
-        static void scheduleAppointment();
-        static void viewLatestAppointment();
-        static void waitForEnter();
-        static void clearScreen();
-};
 
+public:
+    static void displayHospitalInfo();
+    static void addPatientRecord();
+    static void addDiagnosisInfo();
+    static void editPatientRecord();
+    static void deletePatientRecord();
+    static void displayFullHistory();
+    static void scheduleAppointment();
+    static void viewLatestAppointment();
+    static void waitForEnter();
+    static void clearScreen();
+};
 bool login();
 
 bool login() {
@@ -119,10 +106,10 @@ void HospitalManagementSystem::addPatientRecord() {
         cout << "\nError while opening the file\n";
         return;
     } else {
-        PatientInfo patient;
+        HospitalManagementSystem patient;
 
-        cout << "\n**********\n";
-        pat_file << "\n**********\n\n";  //fn1353 st
+        cout << "\n**\n";
+        pat_file << "\n**\n\n";  //fn1353 st
         cout << "\nName : ";
         pat_file << "Name : ";
         cin.getline(patient.name, sizeof(patient.name));
@@ -155,8 +142,8 @@ void HospitalManagementSystem::addPatientRecord() {
         pat_file << "Patient ID : ";
         cin.getline(patient.id, sizeof(patient.id));
         pat_file << patient.id << "\n";
-        cout << "\n**********\n";
-        pat_file << "\n**********\n\n";
+        cout << "\n**\n";
+        pat_file << "\n**\n\n";
         cout << "\nInformation Saved Successfully\n";
     }
     waitForEnter();
@@ -187,7 +174,7 @@ void HospitalManagementSystem::editPatientRecord() {
 
         cout << "\nEnter the updated patient information:\n";
         
-        PatientInfo updatedInfo;
+        HospitalManagementSystem updatedInfo;
 
         cout << "\nUpdated Name : ";
         pat_file << "Updated Name : ";
@@ -244,7 +231,7 @@ void HospitalManagementSystem::addDiagnosisInfo() {
     cin.ignore();
 
     cin.getline(fname, sizeof(fname));
-    system("cls");
+    system("clear");
     pat_file.open(fname, ios::in);
     if (!pat_file) {
         cout << "\nError while opening the file\n";
@@ -262,7 +249,7 @@ void HospitalManagementSystem::addDiagnosisInfo() {
         cout << "\n";
         cout << "Adding more information in patient's file................on : " << asctime(timeinfo) << endl;
         pat_file << "\nDescription of " << asctime(timeinfo) << "\n";
-        DiagnosisInfo add;
+        HospitalManagementSystem add;
         
         cout << "\nSymptoms : ";
         pat_file << "Symptoms : ";
@@ -289,7 +276,7 @@ void HospitalManagementSystem::addDiagnosisInfo() {
         cin.getline(add.ward, sizeof(add.ward));
         pat_file << add.ward << "\n";
 
-        pat_file << "\n*********\n";
+        pat_file << "\n***\n";
         cout << "\n\n" << add.ward << " ward is allotted Successfully\n";
         pat_file.close();
         cout << "\n\n";
@@ -305,7 +292,7 @@ void HospitalManagementSystem::displayFullHistory() {
     cout << "\n\nEnter the patient's file name to be opened : ";
     cin.ignore();
     cin.getline(fname, sizeof(fname));
-    system("cls");
+    system("clear");
     pat_file.open(fname, ios::in);
     if (!pat_file) {
         cout << "\nError while opening the file\n";
@@ -445,7 +432,7 @@ int main(){
 
     re:
     cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n";
-    cout << "\t\t\t\t\t@@ ____________________________________________________________________________________|@@\n";
+    cout << "\t\t\t\t\t@@ __________|@@\n";
     cout << "\t\t\t\t\t@@|                                           		                                  |@@\n";
     cout << "\t\t\t\t\t@@|                                           		                                  |@@\n";
     cout << "\t\t\t\t\t@@|                                           		                                  |@@\n";
@@ -461,7 +448,7 @@ int main(){
     cout << "\t\t\t\t\t@@|                                                                                    |@@\n";
     cout << "\t\t\t\t\t@@|                                                                                    |@@\n";
     cout << "\t\t\t\t\t@@|                                                                                    |@@\n";
-    cout << "\t\t\t\t\t@@|____________________________________________________________________________________|@@\n";
+    cout << "\t\t\t\t\t@@|__________|@@\n";
     cout << "\t\t\t\t\t@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\n\n\n\t\t\t\t\t";
     cout << "Press Enter to continue...";
     cin.ignore();
@@ -475,7 +462,7 @@ int main(){
     while (true) {
         cout << "\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t  HOSPITAL MANAGEMENT SYSTEM \n\n";
         cout << "\n\n\t\t\t\t\t\tPlease,  Choose from the following Options: \n\n";
-        cout << "\t\t\t\t\t\t _________________________________________________________________|\n";
+        cout << "\t\t\t\t\t\t _________|\n";
         cout << "\t\t\t\t\t\t|                                           	                   |\n";
         cout << "\t\t\t\t\t\t|             1  >> Add New Patient Record                        |\n";
         cout << "\t\t\t\t\t\t|             2  >> Edit Patient Record                           |\n";
@@ -486,7 +473,7 @@ int main(){
         cout << "\t\t\t\t\t\t|             7  >> Schedule appointment                          |\n";
         cout << "\t\t\t\t\t\t|             8  >> View Latest Appointment                       |\n";
         cout << "\t\t\t\t\t\t|             9  >> Exit the Program                              |\n";
-        cout << "\t\t\t\t\t\t|_________________________________________________________________|\n\n";
+        cout << "\t\t\t\t\t\t|_________|\n\n";
         a:
         cout << "\t\t\t\t\t\tEnter your choice: ";
         cin >> i;
@@ -525,7 +512,7 @@ int main(){
                 break;
             case 9:
                 cout << "\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n";
-                cout << "\t\t\t\t\t@@ _______________________________________________________________________________________|@@\n";
+                cout << "\t\t\t\t\t@@ ___________|@@\n";
                 cout << "\t\t\t\t\t@@|                                           		                                     |@@\n";
                 cout << "\t\t\t\t\t@@|                                           		                                     |@@\n";
                 cout << "\t\t\t\t\t@@|                                           		                                     |@@\n";
@@ -540,7 +527,7 @@ int main(){
                 cout << "\t\t\t\t\t@@|                                                                                       |@@\n";
                 cout << "\t\t\t\t\t@@|                                                                                       |@@\n";
                 cout << "\t\t\t\t\t@@|                                                                                       |@@\n";
-                cout << "\t\t\t\t\t@@|_______________________________________________________________________________________|@@\n";
+                cout << "\t\t\t\t\t@@|___________|@@\n";
                 cout << "\t\t\t\t\t@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\n\n\n\t\t\t\t\t";
                 cout << "Press Enter to continue...";
                 cin.ignore();
